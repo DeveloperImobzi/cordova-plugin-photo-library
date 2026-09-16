@@ -559,6 +559,17 @@ exports.defineAutoTests = function () {
         expect(cordova.plugins.photoLibrary.saveVideo).toEqual(jasmine.any(Function));
       });
 
+      it('should reject remote URLs without crashing', function (done) {
+        cordova.plugins.photoLibrary.saveVideo('https://example.com/video.mp4', 'PhotoLibraryTests',
+          function () {
+            done.fail('Remote video URL should not be accepted');
+          },
+          function (err) {
+            expect(err).toContain('local file');
+            done();
+          });
+      });
+
       // TODO: add more tests
 
     });
